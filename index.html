@@ -89,11 +89,11 @@
       document.addEventListener("DOMContentLoaded", function () {
         // Detecta parâmetros da URL
         const urlParams = new URLSearchParams(window.location.search);
-        const page = urlParams.get("page") || "home";
-        const id = urlParams.get("id") || "";
+        const page = urlParams.get("page") || "";
+        const params = urlParams.get("params") || "";
 
         // Cria o deep link com base nos parâmetros
-        const deepLink = `agendados-app://${page}`;
+        const deepLink = `agendados-app://${page}?${params}`;
 
         // Define o link no botão
         const deeplinkButton = document.getElementById("deeplink-button");
