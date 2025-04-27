@@ -93,7 +93,7 @@
         const id = urlParams.get("id") || "";
 
         // Cria o deep link com base nos parâmetros
-        const deepLink = `myapp://${page}${id ? "/" + id : ""}`;
+        const deepLink = `agendados-app://${page}`;
 
         // Define o link no botão
         const deeplinkButton = document.getElementById("deeplink-button");
