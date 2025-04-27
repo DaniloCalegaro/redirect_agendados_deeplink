@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecionando para o Aplicativo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+        background-color: #f5f5f5;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .logo {
+        max-width: 150px;
+        margin-bottom: 20px;
+      }
+      .button {
+        display: inline-block;
+        background-color: #4caf50;
+        color: white;
+        padding: 12px 30px;
+        margin: 10px 0;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+      .button:hover {
+        background-color: #45a049;
+      }
+      .loading {
+        margin: 20px 0;
+      }
+      .stores {
+        margin-top: 30px;
+      }
+      .store-button {
+        display: inline-block;
+        margin: 10px;
+        text-decoration: none;
+      }
+      .store-button img {
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="/api/placeholder/150/150" alt="Logo do App" class="logo" />
+      <h1>Abrindo o aplicativo...</h1>
+      <p class="loading">Aguarde enquanto redirecionamos você...</p>
+
+      <p id="fallback-message" style="display: none">
+        Se o aplicativo não abrir automaticamente, clique no botão abaixo:
+      </p>
+
+      <a href="#" id="deeplink-button" class="button">Abrir no Aplicativo</a>
+
+      <div class="stores">
+        <p>Não tem o aplicativo instalado? Baixe agora:</p>
+        <a
+          href="https://play.google.com/store/apps/details?id=com.seuapp"
+          class="store-button"
+          id="play-store"
+        >
+          <img src="/api/placeholder/150/40" alt="Google Play" />
+        </a>
+        <a
+          href="https://apps.apple.com/app/id123456789"
+          class="store-button"
+          id="app-store"
+        >
+          <img src="/api/placeholder/150/40" alt="App Store" />
+        </a>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Detecta parâmetros da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get("page") || "home";
+        const id = urlParams.get("id") || "";
+
+        // Cria o deep link com base nos parâmetros
+        const deepLink = `myapp://${page}${id ? "/" + id : ""}`;
+
+        // Define o link no botão
+        const deeplinkButton = document.getElementById("deeplink-button");
+        deeplinkButton.href = deepLink;
+
+        // Mostra a mensagem de fallback após 1.5 segundos
+        setTimeout(function () {
+          document.getElementById("fallback-message").style.display = "block";
+        }, 1500);
+
+        // Tenta abrir o aplicativo automaticamente
+        setTimeout(function () {
+          window.location.href = deepLink;
+        }, 100);
+
+        // Detecta se é iOS ou Android para mostrar botão relevante da app store
+        const userAgent =
+          navigator.userAgent || navigator.vendor || window.opera;
+
+        if (/android/i.test(userAgent)) {
+          document.getElementById("app-store").style.display = "none";
+        } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          document.getElementById("play-store").style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
